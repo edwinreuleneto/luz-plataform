@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Criar conta',
 };
 
-export default function RegisterPage(): JSX.Element {
+const RegisterPage = () => {
   return (
     <div className="flex min-h-full">
       <div className="relative hidden w-0 flex-1 lg:block">
@@ -54,5 +54,7 @@ export default function RegisterPage(): JSX.Element {
       </div>
     </div>
   );
-}
+};
+
+export default RegisterPage;
 

@@ -31,7 +31,7 @@ const formSchema = z.object({
 
 type LoginFormValues = z.infer<typeof formSchema>;
 
-export function LoginForm(): JSX.Element {
+export const LoginForm = () => {
   const { login } = useAuth();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -86,5 +86,5 @@ export function LoginForm(): JSX.Element {
       </form>
     </Form>
   );
-}
+};
 

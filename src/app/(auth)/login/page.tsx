@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Login',
 };
 
-export default function LoginPage(): JSX.Element {
+const LoginPage = () => {
   return (
     <div className="flex min-h-full">
       <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -53,5 +53,7 @@ export default function LoginPage(): JSX.Element {
       </div>
     </div>
   );
-}
+};
+
+export default LoginPage;
 

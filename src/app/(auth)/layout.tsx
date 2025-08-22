@@ -1,8 +1,10 @@
-export default function AuthLayout({
+const AuthLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}) => {
   return <div className="h-full">{children}</div>;
-}
+};
+
+export default AuthLayout;
 

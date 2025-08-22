@@ -11,11 +11,11 @@ import { useAuth } from '@/app/services/auth';
 // Utils/Helpers
 import { Button } from '@/components/ui/button';
 
-export default function AdminLayout({
+const AdminLayout = ({
   children,
 }: {
   children: ReactNode;
-}): JSX.Element {
+}) => {
   const { logout } = useAuth();
   const router = useRouter();
 
@@ -37,5 +37,7 @@ export default function AdminLayout({
       <main className="p-4">{children}</main>
     </div>
   );
-}
+};
+
+export default AdminLayout;
 
