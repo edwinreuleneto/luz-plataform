@@ -1,41 +1,39 @@
 "use client";
 
 // External libs
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useEffect, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
-// Domain Entities/DTOs/Interfaces
-import type { ReactNode } from 'react';
-import { useAuth } from '@/app/services/auth';
+// Services
+import { useAuth } from "@/app/services/auth";
 
-// Utils/Helpers
-import { Button } from '@/components/ui/button';
+// Components
+import AdminHeader from "./_components/admin-header";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-const AdminLayout = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
-  const { logout } = useAuth();
+const AdminLayout = ({ children }: { children: ReactNode }) => {
+  const { user, loading } = useAuth();
   const router = useRouter();
 
-  const handleLogout = async (): Promise<void> => {
-    await logout();
-    router.push('/login');
-  };
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return null;
+  }
 
   return (
-    <div className="min-h-screen">
-      <header className="flex items-center justify-between border-b p-4">
-        <Link href="/admin" className="font-bold">
-          Admin
-        </Link>
-        <Button variant="outline" onClick={handleLogout}>
-          Sair
-        </Button>
-      </header>
-      <main className="p-4">{children}</main>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <AdminHeader />
+        <main className="p-4">{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 

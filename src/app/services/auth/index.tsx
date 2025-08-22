@@ -5,6 +5,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence,
   signInWithEmailAndPassword,
   signOut,
   type User,
@@ -30,10 +32,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    setPersistence(firebaseAuth, browserLocalPersistence).catch(console.error);
+
     const unsubscribe = onAuthStateChanged(firebaseAuth, (firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
     });
+
     return unsubscribe;
   }, []);
 
