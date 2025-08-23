@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 
 // Services
 import { uploadFile } from "@/app/services/files";
@@ -20,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { MaskedInput } from "@/components/ui/masked-input";
 import {
   Select,
   SelectContent,
@@ -29,22 +31,23 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+// Utils
+import { maskCpf, maskCnpj, maskPhone, unmask } from "@/utils/masks";
+
 // DTOs
-export const clientFormSchema = z
-  .object({
-    organizationId: z.string().uuid(),
-    personType: z.enum(["PF", "PJ"]),
-    fullName: z.string().optional(),
-    companyName: z.string().optional(),
-    cpf: z.string().optional(),
-    cnpj: z.string().optional(),
-    email: z.string().email().optional(),
-    phone: z.string().optional(),
-    website: z.string().optional(),
-    notes: z.string().optional(),
-    logoFileId: z.string().uuid().optional(),
-    docMainFileId: z.string().uuid().optional(),
-  })
+  export const clientFormSchema = z
+    .object({
+      personType: z.enum(["PF", "PJ"]),
+      fullName: z.string().optional(),
+      companyName: z.string().optional(),
+      cpf: z.string().optional(),
+      cnpj: z.string().optional(),
+      email: z.string().email().optional(),
+      phone: z.string().optional(),
+      website: z.string().optional(),
+      notes: z.string().optional(),
+      logoFileId: z.string().uuid().optional(),
+    })
   .refine(
     (data) =>
       (data.personType === "PF" && data.fullName) ||
@@ -61,66 +64,62 @@ interface ClientFormProps {
   submitLabel?: string;
 }
 
-const ClientForm = ({
-  initialData,
-  onSubmit,
-  submitLabel = "Salvar",
-}: ClientFormProps) => {
-  const [submitting, setSubmitting] = useState(false);
-  const form = useForm<z.infer<typeof clientFormSchema>>({
-    resolver: zodResolver(clientFormSchema),
-    defaultValues: {
-      personType: "PF",
-      ...initialData,
-    },
-  });
+  const ClientForm = ({
+    initialData,
+    onSubmit,
+    submitLabel = "Salvar",
+  }: ClientFormProps) => {
+    const [submitting, setSubmitting] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const form = useForm<z.infer<typeof clientFormSchema>>({
+      resolver: zodResolver(clientFormSchema),
+      defaultValues: {
+        personType: "PF",
+        ...initialData,
+      },
+    });
 
-  const handleFileChange = async (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: { onChange: (value: string) => void }
-  ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      try {
-        const { id } = await uploadFile(file);
-        field.onChange(id);
-      } catch (error) {
-        console.error(error);
+    const handleFileChange = async (
+      e: React.ChangeEvent<HTMLInputElement>,
+      field: { onChange: (value: string) => void }
+    ) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        setUploading(true);
+        try {
+          const { id } = await uploadFile(file);
+          field.onChange(id);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setUploading(false);
+        }
       }
-    }
-  };
+    };
 
-  const submit = async (values: z.infer<typeof clientFormSchema>) => {
-    setSubmitting(true);
-    try {
-      await onSubmit(values);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    const submit = async (values: z.infer<typeof clientFormSchema>) => {
+      setSubmitting(true);
+      try {
+        await onSubmit({
+          ...values,
+          cpf: unmask(values.cpf),
+          cnpj: unmask(values.cnpj),
+          phone: unmask(values.phone),
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    };
 
-  const personType = form.watch("personType");
+    const personType = form.watch("personType");
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(submit)} className="space-y-4 max-w-xl">
-        <FormField
-          control={form.control}
-          name="organizationId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organização</FormLabel>
-              <FormControl>
-                <Input placeholder="UUID" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="personType"
-          render={({ field }) => (
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(submit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="personType"
+            render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo de Pessoa</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
@@ -160,7 +159,7 @@ const ClientForm = ({
                 <FormItem>
                   <FormLabel>CPF</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <MaskedInput mask={maskCpf} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -189,7 +188,7 @@ const ClientForm = ({
                 <FormItem>
                   <FormLabel>CNPJ</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <MaskedInput mask={maskCnpj} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -217,7 +216,7 @@ const ClientForm = ({
             <FormItem>
               <FormLabel>Telefone</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <MaskedInput mask={maskPhone} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -258,36 +257,22 @@ const ClientForm = ({
               <FormControl>
                 <Input
                   type="file"
+                  disabled={uploading}
                   onChange={(e) => handleFileChange(e, field)}
                 />
               </FormControl>
-              {field.value ? (
+              {uploading ? (
+                <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                  <Loader2 className="size-3 animate-spin" /> Enviando...
+                </p>
+              ) : field.value ? (
                 <p className="text-xs text-muted-foreground mt-1">Arquivo enviado</p>
               ) : null}
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="docMainFileId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Documento principal</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  onChange={(e) => handleFileChange(e, field)}
-                />
-              </FormControl>
-              {field.value ? (
-                <p className="text-xs text-muted-foreground mt-1">Arquivo enviado</p>
-              ) : null}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={submitting}>
+        <Button type="submit" disabled={submitting || uploading}>
           {submitLabel}
         </Button>
       </form>

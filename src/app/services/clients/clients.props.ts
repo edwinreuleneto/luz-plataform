@@ -12,13 +12,11 @@ export interface Client {
   website?: string;
   notes?: string;
   logoFileId?: string;
-  docMainFileId?: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export interface CreateClientDto {
-  organizationId: string;
   personType: "PF" | "PJ";
   fullName?: string;
   companyName?: string;
@@ -29,7 +27,6 @@ export interface CreateClientDto {
   website?: string;
   notes?: string;
   logoFileId?: string;
-  docMainFileId?: string;
 }
 
 export type UpdateClientDto = Partial<CreateClientDto>;
@@ -39,4 +36,11 @@ export interface ClientQueryDto {
   pageSize?: number;
   search?: string;
   personType?: "PF" | "PJ";
+}
+
+export interface ClientListResponse {
+  data: Client[];
+  total: number;
+  page: number;
+  pageSize: number;
 }

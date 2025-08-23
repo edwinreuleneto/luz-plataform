@@ -31,25 +31,27 @@ const EditarClientePage = () => {
     return null;
   }
 
-  const name = client.fullName ?? client.companyName ?? "Cliente";
+    const name = client.fullName ?? client.companyName ?? "Cliente";
+    const { organizationId, ...formData } = client;
+    void organizationId;
 
-  return (
-    <div className="space-y-4">
-      <PageHeader title={name} description="Editar cliente" />
-      <Card>
-        <CardContent className="pt-6">
-          <ClientForm
-            initialData={client}
-            onSubmit={async (values) => {
-              await updateClient(clientId, values);
-              router.push(`/admin/clientes/${clientId}`);
-            }}
-            submitLabel="Salvar"
-          />
-        </CardContent>
-      </Card>
-    </div>
-  );
-};
+    return (
+      <div className="space-y-4">
+        <PageHeader title={name} description="Editar cliente" />
+        <Card>
+          <CardContent className="pt-6">
+            <ClientForm
+              initialData={formData}
+              onSubmit={async (values) => {
+                await updateClient(clientId, values);
+                router.push(`/admin/clientes/${clientId}`);
+              }}
+              submitLabel="Salvar"
+            />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  };
 
 export default EditarClientePage;
