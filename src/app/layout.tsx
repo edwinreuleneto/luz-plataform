@@ -1,10 +1,17 @@
+// NextJS core
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
+// Fonts
+import { Montserrat, Geist_Mono } from "next/font/google";
+
+// Styles
 import "./globals.css";
+
+// Services
 import { AuthProvider } from "./services/auth";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
 });
 
@@ -26,7 +33,7 @@ const RootLayout = ({
   return (
     <html lang="en" className="h-full bg-white dark:bg-gray-900">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+        className={`${montserrat.variable} ${geistMono.variable} h-full antialiased`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
