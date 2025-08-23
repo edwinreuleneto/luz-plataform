@@ -3,13 +3,19 @@
 // External libs
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Services
-import { listClients, type Client } from "@/app/services/clients";
+import {
+  createClient,
+  listClients,
+  type Client,
+} from "@/app/services/clients";
 
 // Components
 import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from "@/components/ui/sheet";
 import {
   Tabs,
   TabsContent,
@@ -26,7 +32,12 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 
+// Local
+import ClientForm from "./_components/client-form";
+
 const ClientesPage = () => {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
   const [pfClients, setPfClients] = useState<Client[]>([]);
   const [pjClients, setPjClients] = useState<Client[]>([]);
 
@@ -57,6 +68,13 @@ const ClientesPage = () => {
           </TableCell>
         </TableRow>
       ))}
+      {clients.length === 0 ? (
+        <TableRow>
+          <TableCell colSpan={3} className="text-center text-muted-foreground">
+            Nenhum cliente encontrado
+          </TableCell>
+        </TableRow>
+      ) : null}
     </TableBody>
   );
 
@@ -80,9 +98,25 @@ const ClientesPage = () => {
   return (
     <div className="space-y-4">
       <PageHeader title="Clientes" description="Listagem de clientes">
-        <Button asChild>
-          <Link href="/admin/clientes/novo">Novo</Link>
-        </Button>
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <Button>Novo</Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+            <SheetHeader>
+              <SheetTitle>Novo Cliente</SheetTitle>
+              <SheetDescription>Cadastro de cliente</SheetDescription>
+            </SheetHeader>
+            <ClientForm
+              onSubmit={async (values) => {
+                const client = await createClient(values);
+                setOpen(false);
+                router.push(`/admin/clientes/${client.id}`);
+              }}
+              submitLabel="Salvar"
+            />
+          </SheetContent>
+        </Sheet>
       </PageHeader>
       <Tabs defaultValue="pf" className="space-y-4">
         <TabsList className="grid w-full grid-cols-2">
