@@ -7,6 +7,9 @@ import "@/styles/globals.css";
 // Services
 import { AuthProvider } from "./services/auth";
 
+// Components
+import { Toaster } from "@/components/ui/sonner";
+
 // Configurando Inter
 const inter = Poppins({
   subsets: ["latin"],
@@ -65,11 +68,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" className="h-full bg-white dark:bg-gray-900">
-      <body
-        className={`${inter.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
-      >
-        <AuthProvider>{children}</AuthProvider>
-      </body>
-    </html>
-  );
-}
+        <body
+          className={`${inter.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
+        >
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </body>
+      </html>
+    );
+  }
