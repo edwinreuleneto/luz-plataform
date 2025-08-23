@@ -7,12 +7,18 @@ import { useRouter } from "next/navigation";
 // Services
 import { useAuth } from "@/app/services/auth";
 
-// Utils/Helpers
-import { Button } from "@/components/ui/button";
+// Components
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 const AdminHeader = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   const handleLogout = async (): Promise<void> => {
@@ -28,9 +34,27 @@ const AdminHeader = () => {
           Admin
         </Link>
       </div>
-      <Button variant="outline" onClick={handleLogout}>
-        Sair
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Avatar className="cursor-pointer">
+            <AvatarImage
+              src={user?.photoURL ?? undefined}
+              alt={user?.displayName ?? "User"}
+            />
+            <AvatarFallback>
+              {user?.email ? user.email[0].toUpperCase() : "U"}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
+            <Link href="/admin/perfil">Configurações</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={handleLogout}>
+            Sair
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </header>
   );
 };
