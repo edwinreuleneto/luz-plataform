@@ -2,6 +2,7 @@
 import {
   type Client,
   type CreateClientDto,
+  type ClientListResponse,
   type ClientQueryDto,
   type UpdateClientDto,
 } from "./clients.props";
@@ -12,7 +13,7 @@ const buildUrl = (path: string) => `${API_BASE_URL}${path}`;
 
 export const listClients = async (
   query: ClientQueryDto = {}
-): Promise<Client[]> => {
+): Promise<ClientListResponse> => {
   const url = new URL(buildUrl("/api/v1/clients"));
   Object.entries(query).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
