@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 // NextJS core
 import { useRouter } from "next/navigation";
@@ -34,19 +36,21 @@ type LoginFormValues = z.infer<typeof formSchema>;
 export const LoginForm = () => {
   const { login } = useAuth();
   const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: { email: "", password: "" },
   });
 
   const onSubmit = async (values: LoginFormValues): Promise<void> => {
-    setError(null);
+    setIsLoading(true);
     try {
       await login(values.email, values.password);
       router.push("/admin");
     } catch {
-      setError("Credenciais inválidas");
+      toast.error("Credenciais inválidas");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -83,9 +87,20 @@ export const LoginForm = () => {
             </FormItem>
           )}
         />
-        {error && <p className="text-sm text-red-500">{error}</p>}
-        <Button type="submit" size={"lg"} className="w-full py-4">
-          Entrar
+        <Button
+          type="submit"
+          size={"lg"}
+          className="w-full py-4"
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Entrando
+            </>
+          ) : (
+            "Entrar"
+          )}
         </Button>
       </form>
     </Form>
