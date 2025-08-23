@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
+import { LayoutDashboard, Users, FileText } from "lucide-react";
 
 // Components
 import {
@@ -19,9 +20,9 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", href: "/admin" },
-  { title: "Clientes", href: "/admin/clientes" },
-  { title: "Processos", href: "/admin/processos" },
+  { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { title: "Clientes", href: "/admin/clientes", icon: Users },
+  { title: "Processos", href: "/admin/processos", icon: FileText },
 ];
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
@@ -30,16 +31,19 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <div className="text-lg font-bold">Luz</div>
+        <div className="px-2 py-4 text-2xl font-semibold tracking-tight">Luz</div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {menuItems.map((item) => (
-                <SidebarMenuItem key={item.href}>
-                  <SidebarMenuButton asChild isActive={pathname === item.href}>
-                    <Link href={item.href}>{item.title}</Link>
+              {menuItems.map(({ href, title, icon: Icon }) => (
+                <SidebarMenuItem key={href}>
+                  <SidebarMenuButton asChild isActive={pathname === href}>
+                    <Link href={href} className="flex items-center gap-3">
+                      <Icon className="h-4 w-4" />
+                      <span>{title}</span>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
