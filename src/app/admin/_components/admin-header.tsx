@@ -27,12 +27,9 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="flex items-center justify-between border-b p-4">
+    <header className="flex items-center justify-between border-b border-gray-100 p-4">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="md:hidden" />
-        <Link href="/admin" className="font-bold">
-          Admin
-        </Link>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -50,9 +47,7 @@ const AdminHeader = () => {
           <DropdownMenuItem asChild>
             <Link href="/admin/perfil">Configurações</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onSelect={handleLogout}>
-            Sair
-          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={handleLogout}>Sair</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
@@ -60,4 +55,3 @@ const AdminHeader = () => {
 };
 
 export default AdminHeader;
-

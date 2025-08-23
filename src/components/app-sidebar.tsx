@@ -31,7 +31,9 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <div className="px-2 py-4 text-2xl font-semibold tracking-tight">Luz</div>
+        <div className="px-2 py-4 text-2xl font-semibold tracking-tight">
+          EuAdvoguei
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -39,8 +41,12 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {menuItems.map(({ href, title, icon: Icon }) => (
                 <SidebarMenuItem key={href}>
-                  <SidebarMenuButton asChild isActive={pathname === href}>
-                    <Link href={href} className="flex items-center gap-3">
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === href}
+                    className="py-1.5"
+                  >
+                    <Link href={href} className="flex items-center gap-3 py-3">
                       <Icon className="h-4 w-4" />
                       <span>{title}</span>
                     </Link>
@@ -51,7 +57,6 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }
