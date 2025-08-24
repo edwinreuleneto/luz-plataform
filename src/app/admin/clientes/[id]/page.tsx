@@ -52,20 +52,20 @@ const ClienteViewPage = () => {
             Documentos
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="profile">
+        <TabsContent value="profile" className="pt-4">
           {clientLoading || !client ? (
             <ClientProfileSkeleton />
           ) : (
             <ClientProfile client={client} />
           )}
         </TabsContent>
-        <TabsContent value="contracts">
+        <TabsContent value="contracts" className="pt-4">
           <ClientContracts contracts={contracts} />
         </TabsContent>
-        <TabsContent value="processes">
+        <TabsContent value="processes" className="pt-4">
           <ClientProcesses />
         </TabsContent>
-        <TabsContent value="documents">
+        <TabsContent value="documents" className="pt-4">
           <ClientDocuments />
         </TabsContent>
       </Tabs>

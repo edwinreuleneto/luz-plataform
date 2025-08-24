@@ -11,7 +11,7 @@ import PageHeader from "@/components/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 
 // Local
-import ClientForm from "../_components/client-form";
+import ClientForm from "../../_components/client-form";
 
 const EditarClientePage = () => {
   const params = useParams<{ id: string }>();

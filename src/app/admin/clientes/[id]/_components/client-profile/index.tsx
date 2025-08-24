@@ -7,67 +7,67 @@ import type { ClientProfileProps } from "./client-profile-props";
 const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
     <div>
-      <div className="px-4 sm:px-0">
-        <h3 className="text-base/7 font-semibold text-gray-900 dark:text-white">
+      {/* <div className="px-4 sm:px-0">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Informações do cliente
         </h3>
-        <p className="mt-1 max-w-2xl text-sm/6 text-gray-500 dark:text-gray-400">
+        <p className="text-md max-w-2xl text-gray-500 dark:text-gray-400">
           Detalhes do cliente.
         </p>
-      </div>
+      </div> */}
       <div className="mt-6">
         <dl className="grid grid-cols-1 sm:grid-cols-2">
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Tipo de pessoa
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.personType}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Documento
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.cpf ?? client.cnpj ?? "-"}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Email
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.email ?? "-"}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Telefone
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.phone ?? "-"}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-2 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Website
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.website ?? "-"}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-2 sm:px-0 dark:border-white/10">
+            <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Notas
             </dt>
-            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+            <dd className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               {client.notes ?? "-"}
             </dd>
           </div>
           {client.contacts?.length ? (
-            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
-              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+            <div className="border-t border-gray-100 px-4 py-4 sm:col-span-2 sm:px-0 dark:border-white/10">
+              <dt className="text-md font-semibold text-gray-900 dark:text-white">
                 Contatos
               </dt>
               <dd className="mt-2 text-sm text-gray-900 dark:text-white">
@@ -78,7 +78,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                   {client.contacts.map((contact) => (
                     <li
                       key={contact.id}
-                      className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6"
+                      className="text-md flex items-center justify-between py-4 pr-5 pl-4"
                     >
                       <div className="flex w-0 flex-1 items-center">
                         <Paperclip
@@ -86,7 +86,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                           className="size-5 shrink-0 text-gray-400 dark:text-gray-500"
                         />
                         <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                          <span className="truncate font-medium text-gray-900 dark:text-white">
+                          <span className="truncate font-semibold text-gray-900 dark:text-white">
                             {contact.name}
                           </span>
                           {contact.email ? (
@@ -108,8 +108,8 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
             </div>
           ) : null}
           {client.addresses?.length ? (
-            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
-              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+            <div className="border-t border-gray-100 px-4 py-4 sm:col-span-2 sm:px-0 dark:border-white/10">
+              <dt className="text-md font-semibold text-gray-900 dark:text-white">
                 Endereços
               </dt>
               <dd className="mt-2 text-sm text-gray-900 dark:text-white">
@@ -120,7 +120,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                   {client.addresses.map((address) => (
                     <li
                       key={address.id}
-                      className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6"
+                      className="text-md flex items-center justify-between py-4 pr-5 pl-4"
                     >
                       <div className="flex w-0 flex-1 items-center">
                         <Paperclip
@@ -128,7 +128,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                           className="size-5 shrink-0 text-gray-400 dark:text-gray-500"
                         />
                         <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                          <span className="truncate font-medium text-gray-900 dark:text-white">
+                          <span className="truncate font-semibold text-gray-900 dark:text-white">
                             {address.street}
                           </span>
                           <span className="shrink-0 text-gray-400 dark:text-gray-500">
