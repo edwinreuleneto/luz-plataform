@@ -16,6 +16,7 @@ import {
 // Components
 import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -67,21 +68,22 @@ const ClientesPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const [personType, setPersonType] =
+  const [filterType, setFilterType] =
     useState<"PF" | "PJ" | undefined>();
+  const [newPersonType, setNewPersonType] = useState<"PF" | "PJ">("PF");
 
   const loadClients = useCallback(
     async (
       page = 1,
       searchParam?: string,
-      personTypeParam?: "PF" | "PJ"
+      typeParam?: "PF" | "PJ"
     ) => {
       setLoading(true);
       try {
         const res = await listClients({
           page,
           search: (searchParam ?? search) || undefined,
-          personType: personTypeParam ?? personType,
+          personType: typeParam ?? filterType,
         });
         setData(res);
       } catch (error) {
@@ -90,7 +92,7 @@ const ClientesPage = () => {
         setLoading(false);
       }
     },
-    [search, personType]
+    [search, filterType]
   );
 
   useEffect(() => {
@@ -181,21 +183,23 @@ const ClientesPage = () => {
     const totalPages = Math.ceil(state.total / state.pageSize);
     return (
       <div className="space-y-4">
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Tipo</TableHead>
-                <TableHead>Documento</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Telefone</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
-              </TableRow>
-            </TableHeader>
-            {renderRows(state.data)}
-          </Table>
-        </div>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50">
+                  <TableHead>Nome</TableHead>
+                  <TableHead>Tipo</TableHead>
+                  <TableHead>Documento</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Telefone</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              {renderRows(state.data)}
+            </Table>
+          </CardContent>
+        </Card>
         {totalPages > 1 && (
           <div className="px-2">
             <Pagination>
@@ -237,19 +241,27 @@ const ClientesPage = () => {
     <div className="space-y-4">
       <PageHeader title="Clientes" description="Listagem de clientes">
         <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button>Novo</Button>
-          </SheetTrigger>
+          <div className="flex gap-2">
+            <SheetTrigger asChild>
+              <Button onClick={() => setNewPersonType("PF")}>Novo PF</Button>
+            </SheetTrigger>
+            <SheetTrigger asChild>
+              <Button onClick={() => setNewPersonType("PJ")}>Novo PJ</Button>
+            </SheetTrigger>
+          </div>
           <SheetContent
             side="right"
             className="flex w-full flex-col p-0 sm:max-w-lg"
           >
             <SheetHeader className="px-6 py-4">
-              <SheetTitle>Novo Cliente</SheetTitle>
+              <SheetTitle>
+                {newPersonType === "PF" ? "Novo PF" : "Novo PJ"}
+              </SheetTitle>
               <SheetDescription>Cadastro de cliente</SheetDescription>
             </SheetHeader>
             <div className="flex-1 overflow-y-auto px-6 pb-6">
               <ClientForm
+                initialData={{ personType: newPersonType }}
                 onSubmit={async (values) => {
                   const client = await createClient(values);
                   setOpen(false);
@@ -268,15 +280,15 @@ const ClientesPage = () => {
           onChange={(e) => {
             const value = e.target.value;
             setSearch(value);
-            loadClients(1, value, personType);
+            loadClients(1, value, filterType);
           }}
           className="w-full sm:max-w-xs"
         />
         <Select
-          value={personType ?? "all"}
+          value={filterType ?? "all"}
           onValueChange={(value) => {
             const type = value === "all" ? undefined : (value as "PF" | "PJ");
-            setPersonType(type);
+            setFilterType(type);
             loadClients(1, search, type);
           }}
         >

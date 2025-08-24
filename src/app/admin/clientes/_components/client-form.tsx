@@ -22,13 +22,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { MaskedInput } from "@/components/ui/masked-input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 // Utils
@@ -117,27 +110,6 @@ interface ClientFormProps {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(submit)} className="flex h-full flex-col">
           <div className="flex-1 space-y-4">
-            <FormField
-              control={form.control}
-              name="personType"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tipo de Pessoa</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecione" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="PF">Pessoa Física</SelectItem>
-                      <SelectItem value="PJ">Pessoa Jurídica</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             {personType === "PF" ? (
               <>
                 <FormField
