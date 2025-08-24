@@ -6,7 +6,7 @@ import type { ClientProfileProps } from "./client-profile-props";
 
 const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
-    <>
+    <div>
       <div className="px-4 sm:px-0">
         <h3 className="text-base/7 font-semibold text-gray-900 dark:text-white">
           Informações do cliente
@@ -15,68 +15,62 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
           Detalhes do cliente.
         </p>
       </div>
-      <div className="mt-6 border-t border-gray-100 dark:border-white/10">
-        <dl className="divide-y divide-gray-100 dark:divide-white/10">
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Email</dt>
-            <dd className="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
-              <span className="grow">{client.email ?? "-"}</span>
-              <span className="ml-4 shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                >
-                  Atualizar
-                </button>
-              </span>
+      <div className="mt-6">
+        <dl className="grid grid-cols-1 sm:grid-cols-2">
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Tipo de pessoa
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.personType}
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Telefone</dt>
-            <dd className="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
-              <span className="grow">{client.phone ?? "-"}</span>
-              <span className="ml-4 shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                >
-                  Atualizar
-                </button>
-              </span>
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Documento
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.cpf ?? client.cnpj ?? "-"}
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Website</dt>
-            <dd className="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
-              <span className="grow">{client.website ?? "-"}</span>
-              <span className="ml-4 shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                >
-                  Atualizar
-                </button>
-              </span>
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Email
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.email ?? "-"}
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Notas</dt>
-            <dd className="mt-1 flex text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
-              <span className="grow">{client.notes ?? "-"}</span>
-              <span className="ml-4 shrink-0">
-                <button
-                  type="button"
-                  className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                >
-                  Atualizar
-                </button>
-              </span>
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Telefone
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.phone ?? "-"}
+            </dd>
+          </div>
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Website
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.website ?? "-"}
+            </dd>
+          </div>
+          <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
+            <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+              Notas
+            </dt>
+            <dd className="mt-1 text-sm/6 text-gray-700 sm:mt-2 dark:text-gray-400">
+              {client.notes ?? "-"}
             </dd>
           </div>
           {client.contacts?.length ? (
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Contatos</dt>
-              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
+            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
+              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+                Contatos
+              </dt>
+              <dd className="mt-2 text-sm text-gray-900 dark:text-white">
                 <ul
                   role="list"
                   className="divide-y divide-gray-100 rounded-md border border-gray-200 dark:divide-white/5 dark:border-white/10"
@@ -107,23 +101,6 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                           ) : null}
                         </div>
                       </div>
-                      <div className="ml-4 flex shrink-0 space-x-4">
-                        <button
-                          type="button"
-                          className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                        >
-                          Atualizar
-                        </button>
-                        <span aria-hidden="true" className="text-gray-200 dark:text-gray-600">
-                          |
-                        </span>
-                        <button
-                          type="button"
-                          className="rounded-md bg-white font-medium text-gray-900 hover:text-gray-800 dark:bg-transparent dark:text-gray-400 dark:hover:text-white"
-                        >
-                          Remover
-                        </button>
-                      </div>
                     </li>
                   ))}
                 </ul>
@@ -131,9 +108,11 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
             </div>
           ) : null}
           {client.addresses?.length ? (
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">Endereços</dt>
-              <dd className="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-gray-400">
+            <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0 dark:border-white/10">
+              <dt className="text-sm/6 font-medium text-gray-900 dark:text-white">
+                Endereços
+              </dt>
+              <dd className="mt-2 text-sm text-gray-900 dark:text-white">
                 <ul
                   role="list"
                   className="divide-y divide-gray-100 rounded-md border border-gray-200 dark:divide-white/5 dark:border-white/10"
@@ -159,23 +138,6 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                           </span>
                         </div>
                       </div>
-                      <div className="ml-4 flex shrink-0 space-x-4">
-                        <button
-                          type="button"
-                          className="rounded-md bg-white font-medium text-indigo-600 hover:text-indigo-500 dark:bg-transparent dark:text-indigo-400 dark:hover:text-indigo-300"
-                        >
-                          Atualizar
-                        </button>
-                        <span aria-hidden="true" className="text-gray-200 dark:text-gray-600">
-                          |
-                        </span>
-                        <button
-                          type="button"
-                          className="rounded-md bg-white font-medium text-gray-900 hover:text-gray-800 dark:bg-transparent dark:text-gray-400 dark:hover:text-white"
-                        >
-                          Remover
-                        </button>
-                      </div>
                     </li>
                   ))}
                 </ul>
@@ -184,9 +146,8 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
           ) : null}
         </dl>
       </div>
-    </>
+    </div>
   );
 };
 
 export default ClientProfile;
-
