@@ -3,8 +3,6 @@ import {
   type Contract,
   type ContractQueryDto,
   type CreateContractDto,
-  type LinkContractDto,
-  type S3UploadResponse,
 } from "./contracts.props";
 
 const API_BASE_URL = process.env.API_BASE_URL ?? "";
@@ -44,60 +42,6 @@ export const createContract = async (
 
   if (!res.ok) {
     throw new Error("Failed to create contract");
-  }
-
-  return res.json();
-};
-
-export const uploadContractFile = async (
-  clientId: string,
-  file: File,
-): Promise<S3UploadResponse> => {
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("folder", `${clientId}/contrato`);
-
-  const res = await fetch(buildUrl("/api/v1/s3/upload"), {
-    method: "POST",
-    body: formData,
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to upload contract file");
-  }
-
-  return res.json();
-};
-
-export const updateContractFile = async (
-  id: string,
-  fileId: string,
-): Promise<void> => {
-  const res = await fetch(buildUrl(`/api/v1/contracts/${id}/file`), {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ fileId }),
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to update contract file");
-  }
-};
-
-export const linkContractToClient = async (
-  data: LinkContractDto,
-): Promise<Contract> => {
-  const res = await fetch(buildUrl("/api/v1/client-contracts"), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to link contract to client");
   }
 
   return res.json();

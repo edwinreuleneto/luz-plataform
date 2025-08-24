@@ -37,16 +37,18 @@ const getIcon = (ext?: string) => {
   }
 };
 
-const ClientContracts = ({
-  contracts,
-  clientId,
-  organizationId,
-}: ClientContractsProps) => {
+const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
   const [open, setOpen] = useState(false);
   const { mutateAsync: createContract, isPending } = useCreateContract(clientId);
 
-  const handleSubmit = async ({ title, file }: { title: string; file: File }) => {
-    await createContract({ title, organizationId, file });
+  const handleSubmit = async ({
+    title,
+    fileId,
+  }: {
+    title: string;
+    fileId: string;
+  }) => {
+    await createContract({ title, fileId });
     setOpen(false);
   };
 

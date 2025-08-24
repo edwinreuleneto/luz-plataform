@@ -5,6 +5,5 @@ import { type Contract } from "@/services/contracts/contracts.props";
 export interface ClientContractsProps {
   contracts: Contract[];
   clientId: string;
-  organizationId: string;
 }
 

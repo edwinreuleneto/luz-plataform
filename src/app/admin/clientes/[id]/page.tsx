@@ -61,11 +61,7 @@ const ClienteViewPage = () => {
         </TabsContent>
         <TabsContent value="contracts">
           {client ? (
-            <ClientContracts
-              contracts={contracts}
-              clientId={clientId}
-              organizationId={client.organizationId}
-            />
+            <ClientContracts contracts={contracts} clientId={clientId} />
           ) : null}
         </TabsContent>
         <TabsContent value="processes" className="pt-4">
