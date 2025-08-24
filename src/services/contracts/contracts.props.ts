@@ -13,11 +13,20 @@ export interface Contract {
   file?: ContractFile;
 }
 
+export interface S3UploadResponse {
+  key: string;
+  url: string;
+  eTag: string;
+}
+
 export interface CreateContractDto {
   title: string;
   organizationId: string;
   clientId?: string;
-  fileId?: string;
+  file: S3UploadResponse & {
+    name: string;
+    extension: string;
+  };
 }
 
 export interface ContractQueryDto {
