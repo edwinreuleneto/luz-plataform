@@ -2,21 +2,14 @@
 
 // External libs
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 // Services
-import {
-  createClient,
-  listClients,
-  type Client,
-  type ClientListResponse,
-} from "@/app/services/clients";
+import { createClient, listClients, type ClientListResponse } from "@/app/services/clients";
 
 // Components
 import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -33,29 +26,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Skeleton } from "@/components/ui/skeleton";
-
-// Utils
-import { maskCnpj, maskCpf, maskPhone } from "@/utils/masks";
 
 // Local
 import ClientForm from "./_components/client-form";
+import ClientTable from "./_components/client-table";
 
 const ClientesPage = () => {
   const router = useRouter();
@@ -94,139 +68,6 @@ const ClientesPage = () => {
     loadClients();
   }, [loadClients]);
 
-  const renderRows = (clients: Client[]) => {
-    if (loading) {
-      return (
-        <TableBody>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <TableRow key={i} className="odd:bg-muted/50">
-              <TableCell>
-                <Skeleton className="h-4 w-[150px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-10" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[120px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[180px]" />
-              </TableCell>
-              <TableCell>
-                <Skeleton className="h-4 w-[120px]" />
-              </TableCell>
-              <TableCell className="text-right">
-                <Skeleton className="ml-auto h-4 w-12" />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      );
-    }
-
-    return (
-      <TableBody>
-        {clients.map((client) => (
-          <TableRow
-            key={client.id}
-            className="odd:bg-muted/50 hover:bg-muted transition-colors"
-          >
-            <TableCell>{client.fullName ?? client.companyName}</TableCell>
-            <TableCell className="text-muted-foreground">
-              {client.personType}
-            </TableCell>
-            <TableCell className="text-muted-foreground">
-              {client.personType === "PF"
-                ? client.cpf
-                  ? maskCpf(client.cpf)
-                  : "-"
-                : client.cnpj
-                  ? maskCnpj(client.cnpj)
-                  : "-"}
-            </TableCell>
-            <TableCell className="text-muted-foreground">
-              {client.email ?? "-"}
-            </TableCell>
-            <TableCell className="text-muted-foreground">
-              {client.phone ? maskPhone(client.phone) : "-"}
-            </TableCell>
-            <TableCell className="text-right">
-              <Button asChild variant="link" className="px-0">
-                <Link href={`/admin/clientes/${client.id}`}>Visualizar</Link>
-              </Button>
-            </TableCell>
-          </TableRow>
-        ))}
-        {clients.length === 0 ? (
-          <TableRow>
-            <TableCell
-              colSpan={6}
-              className="text-muted-foreground text-center"
-            >
-              Nenhum cliente encontrado
-            </TableCell>
-          </TableRow>
-        ) : null}
-      </TableBody>
-    );
-  };
-
-  const renderTable = (
-    state: ClientListResponse,
-    loadPage: (page: number) => void,
-  ) => {
-    const totalPages = Math.ceil(state.total / state.pageSize);
-    return (
-      <div className="space-y-4">
-        <Table>
-          <TableHeader>
-            <TableRow className="bg-muted/50">
-              <TableHead>Nome</TableHead>
-              <TableHead>Tipo</TableHead>
-              <TableHead>Documento</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Telefone</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          {renderRows(state.data)}
-        </Table>
-        {totalPages > 1 && (
-          <div className="px-2">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    href="#"
-                    onClick={() => loadPage(Math.max(1, state.page - 1))}
-                  />
-                </PaginationItem>
-                {Array.from({ length: totalPages }).map((_, i) => (
-                  <PaginationItem key={i}>
-                    <PaginationLink
-                      href="#"
-                      isActive={state.page === i + 1}
-                      onClick={() => loadPage(i + 1)}
-                    >
-                      {i + 1}
-                    </PaginationLink>
-                  </PaginationItem>
-                ))}
-                <PaginationItem>
-                  <PaginationNext
-                    href="#"
-                    onClick={() =>
-                      loadPage(Math.min(totalPages, state.page + 1))
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="space-y-4">
@@ -299,7 +140,7 @@ const ClientesPage = () => {
           </SelectContent>
         </Select>
       </div>
-      {renderTable(data, loadClients)}
+      <ClientTable state={data} loadPage={loadClients} loading={loading} />
     </div>
   );
 };

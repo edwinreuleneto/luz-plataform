@@ -23,6 +23,7 @@ export const listClients = async (
 
   const res = await fetch(url.toString(), {
     cache: "no-store",
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -35,6 +36,7 @@ export const listClients = async (
 export const getClient = async (id: string): Promise<Client> => {
   const res = await fetch(buildUrl(`/api/v1/clients/${id}`), {
     cache: "no-store",
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -51,6 +53,7 @@ export const createClient = async (
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -68,6 +71,7 @@ export const updateClient = async (
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
+    credentials: "include",
   });
 
   if (!res.ok) {

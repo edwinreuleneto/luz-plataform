@@ -1,28 +1,30 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react"
+// External libs
+import { useState } from "react";
+import { Check, ChevronsUpDown, GalleryVerticalEnd } from "lucide-react";
 
+// Components
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+
+// DTOs
+import { type VersionSwitcherProps } from "./version-switcher-props";
 
 export function VersionSwitcher({
   versions,
   defaultVersion,
-}: {
-  versions: string[]
-  defaultVersion: string
-}) {
-  const [selectedVersion, setSelectedVersion] = React.useState(defaultVersion)
+}: VersionSwitcherProps) {
+  const [selectedVersion, setSelectedVersion] = useState(defaultVersion);
 
   return (
     <SidebarMenu>
@@ -38,7 +40,7 @@ export function VersionSwitcher({
               </div>
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-medium">Documentation</span>
-                <span className="">v{selectedVersion}</span>
+                <span>v{selectedVersion}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
@@ -60,5 +62,5 @@ export function VersionSwitcher({
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
