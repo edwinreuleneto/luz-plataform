@@ -1,13 +1,12 @@
 "use client";
 
 // External libs
-import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 
 // Services
-import { getClient, type Client } from "@/services/clients";
-import { listContracts, type Contract } from "@/services/contracts";
+import { useClient } from "@/services/clients";
+import { useListContracts } from "@/services/contracts";
 
 // Components
 import PageHeader from "@/components/page-header";
@@ -32,18 +31,8 @@ const ClienteViewPage = () => {
   const params = useParams<{ id: string }>();
   const clientId = params.id;
 
-  const [client, setClient] = useState<Client | null>(null);
-  const [contracts, setContracts] = useState<Contract[]>([]);
-
-  useEffect(() => {
-    if (!clientId) return;
-    getClient(clientId)
-      .then(setClient)
-      .catch(console.error);
-    listContracts({ clientId })
-      .then(setContracts)
-      .catch(console.error);
-  }, [clientId]);
+  const { data: client } = useClient(clientId);
+  const { data: contracts = [] } = useListContracts({ clientId });
 
   if (!client) {
     return null;

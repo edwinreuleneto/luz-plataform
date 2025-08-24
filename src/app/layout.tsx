@@ -5,7 +5,8 @@ import { Ubuntu } from "next/font/google";
 import "@/styles/globals.css";
 
 // Services
-import { AuthProvider } from "./services/auth";
+import { ReactQueryProvider } from "@/services/react-query";
+import { AuthProvider } from "@/services/auth";
 
 // Components
 import { Toaster } from "@/components/ui/sonner";
@@ -71,10 +72,12 @@ export default function RootLayout({
       <body
         className={`${ubuntu.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
       >
-        <AuthProvider>
-          {children}
-          <Toaster />
-        </AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
