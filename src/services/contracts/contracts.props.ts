@@ -29,6 +29,12 @@ export interface CreateContractDto {
   };
 }
 
+export interface LinkContractDto {
+  name: string;
+  fileId: string;
+  clientId: string;
+}
+
 export interface ContractQueryDto {
   clientId?: string;
 }

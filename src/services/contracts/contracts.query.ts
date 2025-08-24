@@ -6,6 +6,7 @@ import {
   listContracts,
   createContract,
   uploadContractFile,
+  linkContractToClient,
 } from './contracts.service';
 
 // DTOs
@@ -39,6 +40,17 @@ export const useCreateContract = (clientId: string) => {
       });
       return contract;
     },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
+    },
+  });
+};
+
+export const useLinkContract = (clientId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { name: string; fileId: string }) =>
+      linkContractToClient({ ...data, clientId }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
     },

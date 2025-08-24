@@ -3,6 +3,7 @@ import {
   type Contract,
   type ContractQueryDto,
   type CreateContractDto,
+  type LinkContractDto,
   type S3UploadResponse,
 } from "./contracts.props";
 
@@ -83,4 +84,21 @@ export const updateContractFile = async (
   if (!res.ok) {
     throw new Error("Failed to update contract file");
   }
+};
+
+export const linkContractToClient = async (
+  data: LinkContractDto,
+): Promise<Contract> => {
+  const res = await fetch(buildUrl("/api/v1/client-contracts"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to link contract to client");
+  }
+
+  return res.json();
 };
