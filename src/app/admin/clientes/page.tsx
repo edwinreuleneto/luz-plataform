@@ -1,7 +1,7 @@
 "use client";
 
 // External libs
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -16,6 +16,14 @@ import {
 // Components
 import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -40,6 +48,10 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Utils
+import { maskCnpj, maskCpf, maskPhone } from "@/utils/masks";
 
 // Local
 import ClientForm from "./_components/client-form";
@@ -53,47 +65,114 @@ const ClientesPage = () => {
     page: 1,
     pageSize: 20,
   });
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [personType, setPersonType] =
+    useState<"PF" | "PJ" | undefined>();
 
-  const loadClients = async (page = 1) => {
-    try {
-      const res = await listClients({ page });
-      setData(res);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const loadClients = useCallback(
+    async (
+      page = 1,
+      searchParam?: string,
+      personTypeParam?: "PF" | "PJ"
+    ) => {
+      setLoading(true);
+      try {
+        const res = await listClients({
+          page,
+          search: (searchParam ?? search) || undefined,
+          personType: personTypeParam ?? personType,
+        });
+        setData(res);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [search, personType]
+  );
 
   useEffect(() => {
     loadClients();
-  }, []);
+  }, [loadClients]);
 
-  const renderRows = (clients: Client[]) => (
-    <TableBody>
-      {clients.map((client) => (
-        <TableRow
-          key={client.id}
-          className="odd:bg-muted/50 hover:bg-muted transition-colors"
-        >
-          <TableCell>{client.fullName ?? client.companyName}</TableCell>
-          <TableCell className="text-muted-foreground">
-            {client.email ?? "-"}
-          </TableCell>
-          <TableCell className="text-right">
-            <Button asChild variant="link" className="px-0">
-              <Link href={`/admin/clientes/${client.id}`}>Visualizar</Link>
-            </Button>
-          </TableCell>
-        </TableRow>
-      ))}
-      {clients.length === 0 ? (
-        <TableRow>
-          <TableCell colSpan={3} className="text-center text-muted-foreground">
-            Nenhum cliente encontrado
-          </TableCell>
-        </TableRow>
-      ) : null}
-    </TableBody>
-  );
+  const renderRows = (clients: Client[]) => {
+    if (loading) {
+      return (
+        <TableBody>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <TableRow key={i} className="odd:bg-muted/50">
+              <TableCell>
+                <Skeleton className="h-4 w-[150px]" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-10" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-[120px]" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-[180px]" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-4 w-[120px]" />
+              </TableCell>
+              <TableCell className="text-right">
+                <Skeleton className="h-4 w-12 ml-auto" />
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      );
+    }
+
+    return (
+      <TableBody>
+        {clients.map((client) => (
+          <TableRow
+            key={client.id}
+            className="odd:bg-muted/50 hover:bg-muted transition-colors"
+          >
+            <TableCell>{client.fullName ?? client.companyName}</TableCell>
+            <TableCell className="text-muted-foreground">
+              {client.personType}
+            </TableCell>
+            <TableCell className="text-muted-foreground">
+              {client.personType === "PF"
+                ? client.cpf
+                  ? maskCpf(client.cpf)
+                  : "-"
+                : client.cnpj
+                  ? maskCnpj(client.cnpj)
+                  : "-"}
+            </TableCell>
+            <TableCell className="text-muted-foreground">
+              {client.email ?? "-"}
+            </TableCell>
+            <TableCell className="text-muted-foreground">
+              {client.phone ? maskPhone(client.phone) : "-"}
+            </TableCell>
+            <TableCell className="text-right">
+              <Button asChild variant="link" className="px-0">
+                <Link href={`/admin/clientes/${client.id}`}>Visualizar</Link>
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+        {clients.length === 0 ? (
+          <TableRow>
+            <TableCell
+              colSpan={6}
+              className="text-center text-muted-foreground"
+            >
+              Nenhum cliente encontrado
+            </TableCell>
+          </TableRow>
+        ) : null}
+      </TableBody>
+    );
+  };
 
   const renderTable = (
     state: ClientListResponse,
@@ -107,7 +186,10 @@ const ClientesPage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Nome</TableHead>
+                <TableHead>Tipo</TableHead>
+                <TableHead>Documento</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Telefone</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
@@ -179,9 +261,38 @@ const ClientesPage = () => {
           </SheetContent>
         </Sheet>
       </PageHeader>
-      {renderTable(data, loadClients)}
+      <div className="flex flex-wrap items-end gap-2">
+        <Input
+          placeholder="Buscar..."
+          value={search}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearch(value);
+            loadClients(1, value, personType);
+          }}
+          className="w-full sm:max-w-xs"
+        />
+        <Select
+          value={personType ?? "all"}
+          onValueChange={(value) => {
+            const type = value === "all" ? undefined : (value as "PF" | "PJ");
+            setPersonType(type);
+            loadClients(1, search, type);
+          }}
+        >
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Tipo" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="PF">Pessoa Física</SelectItem>
+            <SelectItem value="PJ">Pessoa Jurídica</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
-    );
-  };
+      {renderTable(data, loadClients)}
+    </div>
+  );
+};
 
 export default ClientesPage;
