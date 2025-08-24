@@ -9,7 +9,8 @@ export interface ContractFile {
 export interface Contract {
   id: string;
   title: string;
-  clientId?: string;
+  fileId: string;
+  clientId: string;
   file?: ContractFile;
 }
 
@@ -30,7 +31,7 @@ export interface CreateContractDto {
 }
 
 export interface LinkContractDto {
-  name: string;
+  title: string;
   fileId: string;
   clientId: string;
 }
