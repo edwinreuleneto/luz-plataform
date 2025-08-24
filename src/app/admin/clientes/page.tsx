@@ -1,13 +1,13 @@
 "use client";
 
 // External libs
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Services
 import {
-  createClient,
-  listClients,
+  useListClients,
+  useCreateClient,
   type ClientListResponse,
 } from "@/services/clients";
 
@@ -38,39 +38,23 @@ import ClientTable from "./_components/client-table";
 const ClientesPage = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<ClientListResponse>({
-    data: [],
-    total: 0,
-    page: 1,
-    pageSize: 20,
-  });
-  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"PF" | "PJ" | undefined>();
   const [newPersonType, setNewPersonType] = useState<"PF" | "PJ">("PF");
 
-  const loadClients = useCallback(
-    async (page = 1, searchParam?: string, typeParam?: "PF" | "PJ") => {
-      setLoading(true);
-      try {
-        const res = await listClients({
-          page,
-          search: (searchParam ?? search) || undefined,
-          personType: typeParam ?? filterType,
-        });
-        setData(res);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [search, filterType],
-  );
+  const { data = {
+    data: [],
+    total: 0,
+    page,
+    pageSize: 20,
+  }, isFetching: loading } = useListClients({
+    page,
+    search: search || undefined,
+    personType: filterType,
+  });
 
-  useEffect(() => {
-    loadClients();
-  }, [loadClients]);
+  const createClientMutation = useCreateClient();
 
   return (
     <div className="space-y-4">
@@ -115,7 +99,7 @@ const ClientesPage = () => {
               <ClientForm
                 initialData={{ personType: newPersonType }}
                 onSubmit={async (values) => {
-                  const client = await createClient(values);
+                  const client = await createClientMutation.mutateAsync(values);
                   setOpen(false);
                   router.push(`/admin/clientes/${client.id}`);
                 }}
@@ -132,7 +116,7 @@ const ClientesPage = () => {
           onChange={(e) => {
             const value = e.target.value;
             setSearch(value);
-            loadClients(1, value, filterType);
+            setPage(1);
           }}
           className="w-full sm:w-64"
         />
@@ -141,7 +125,7 @@ const ClientesPage = () => {
           onValueChange={(value) => {
             const type = value === "all" ? undefined : (value as "PF" | "PJ");
             setFilterType(type);
-            loadClients(1, search, type);
+            setPage(1);
           }}
         >
           <SelectTrigger className="w-full sm:w-40">
@@ -154,7 +138,11 @@ const ClientesPage = () => {
           </SelectContent>
         </Select>
       </div>
-      <ClientTable state={data} loadPage={loadClients} loading={loading} />
+      <ClientTable
+        state={data as ClientListResponse}
+        loadPage={setPage}
+        loading={loading}
+      />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 
 // External libs
-import { useEffect, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 // Services
@@ -16,13 +16,12 @@ const AdminLayout = ({ children }: { children: ReactNode }) => {
   const { user, loading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [user, loading, router]);
+  if (!loading && !user) {
+    router.push("/login");
+    return null;
+  }
 
-  if (loading || !user) {
+  if (loading) {
     return null;
   }
 
