@@ -73,7 +73,7 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
         </div>
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6">
           {contracts.map((contract) => {
-            const Icon = getIcon(contract.file?.extension);
+            const Icon = getIcon(contract.file.extension);
             return (
               <div
                 key={contract.id}
@@ -83,7 +83,7 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
                   <Icon className="size-10 text-primary" />
                 </div>
                 <span className="mt-2 w-full truncate text-sm">
-                  {contract.file?.name ?? contract.title}
+                  {contract.file.name ?? contract.label}
                 </span>
               </div>
             );
