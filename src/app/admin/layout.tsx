@@ -5,7 +5,7 @@ import { useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 // Services
-import { useAuth } from "@/app/services/auth";
+import { useAuth } from "@/services/auth";
 
 // Components
 import AdminHeader from "./_components/admin-header";

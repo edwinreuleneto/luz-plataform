@@ -9,7 +9,7 @@ import {
   createClient,
   listClients,
   type ClientListResponse,
-} from "@/app/services/clients";
+} from "@/services/clients";
 
 // Components
 import PageHeader from "@/components/page-header";
@@ -125,7 +125,7 @@ const ClientesPage = () => {
           </SheetContent>
         </Sheet>
       </PageHeader>
-      <div className="flex flex-wrap items-end gap-2">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-2">
         <Input
           placeholder="Buscar..."
           value={search}
@@ -134,7 +134,7 @@ const ClientesPage = () => {
             setSearch(value);
             loadClients(1, value, filterType);
           }}
-          className="w-full sm:max-w-xs"
+          className="w-full sm:w-64"
         />
         <Select
           value={filterType ?? "all"}
@@ -144,7 +144,7 @@ const ClientesPage = () => {
             loadClients(1, search, type);
           }}
         >
-          <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder="Tipo" />
           </SelectTrigger>
           <SelectContent>

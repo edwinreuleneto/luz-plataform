@@ -1,5 +1,5 @@
 // Services
-import { type ClientListResponse } from "@/app/services/clients";
+import { type ClientListResponse } from "@/services/clients";
 
 // DTOs
 export interface ClientTableProps {

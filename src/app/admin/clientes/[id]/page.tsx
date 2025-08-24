@@ -6,8 +6,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 
 // Services
-import { getClient, type Client } from "@/app/services/clients";
-import { listContracts, type Contract } from "@/app/services/contracts";
+import { getClient, type Client } from "@/services/clients";
+import { listContracts, type Contract } from "@/services/contracts";
 
 // Components
 import PageHeader from "@/components/page-header";
