@@ -13,6 +13,7 @@ import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ClientProfile from "./_components/client-profile";
+import ClientProfileSkeleton from "./_components/client-profile/skeleton";
 import ClientContracts from "./_components/client-contracts";
 import ClientProcesses from "./_components/client-processes";
 import ClientDocuments from "./_components/client-documents";
@@ -21,22 +22,20 @@ const ClienteViewPage = () => {
   const params = useParams<{ id: string }>();
   const clientId = params.id;
 
-  const { data: client } = useClient(clientId);
+  const { data: client, isLoading: clientLoading } = useClient(clientId);
   const { data: contracts = [] } = useListContracts({ clientId });
-
-  if (!client) {
-    return null;
-  }
 
   return (
     <div className="space-y-4">
       <PageHeader
-        title={client.fullName ?? client.companyName ?? "Cliente"}
+        title={client?.fullName ?? client?.companyName ?? "Cliente"}
         description="Detalhes do cliente"
       >
-        <Button asChild variant="outline">
-          <Link href={`/admin/clientes/${clientId}/editar`}>Editar</Link>
-        </Button>
+        {client ? (
+          <Button asChild variant="outline">
+            <Link href={`/admin/clientes/${clientId}/editar`}>Editar</Link>
+          </Button>
+        ) : null}
       </PageHeader>
       <Tabs defaultValue="profile" className="w-full space-y-4">
         <TabsList className="w-full">
@@ -54,7 +53,11 @@ const ClienteViewPage = () => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
-          <ClientProfile client={client} />
+          {clientLoading || !client ? (
+            <ClientProfileSkeleton />
+          ) : (
+            <ClientProfile client={client} />
+          )}
         </TabsContent>
         <TabsContent value="contracts">
           <ClientContracts contracts={contracts} />
