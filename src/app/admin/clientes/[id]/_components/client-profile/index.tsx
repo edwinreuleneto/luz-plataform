@@ -8,7 +8,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
     <div className="px-4">
       <div className="mb-6 border-b border-gray-200 pb-6 sm:px-0">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h3 className="text-primary text-lg font-semibold dark:text-white">
           Informações do cliente
         </h3>
         <p className="text-md max-w-2xl text-gray-500 dark:text-gray-400">

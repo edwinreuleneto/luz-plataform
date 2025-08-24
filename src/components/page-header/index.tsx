@@ -7,7 +7,7 @@ const PageHeader = ({ title, description, children }: PageHeaderProps) => {
   return (
     <div className="mb-6 flex items-center justify-between py-4">
       <div>
-        <h1 className="text-primary font-quicksand text-3xl font-bold">
+        <h1 className="text-primary font-montserrat text-3xl font-extrabold">
           {title}
         </h1>
         {description ? (
