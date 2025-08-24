@@ -29,7 +29,7 @@ interface ClientProfileProps {
 
 const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
-    <Card>
+    <Card className="border-none shadow-none">
       <CardContent className="space-y-4 p-4">
         <div className="space-y-2">
           <p>
@@ -80,4 +80,3 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
 };
 
 export default ClientProfile;
-

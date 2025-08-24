@@ -11,12 +11,7 @@ import { useListContracts } from "@/services/contracts";
 // Components
 import PageHeader from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ClientProfile from "./_components/client-profile";
 import ClientContracts from "./_components/client-contracts";
 import ClientProcesses from "./_components/client-processes";
@@ -43,12 +38,20 @@ const ClienteViewPage = () => {
           <Link href={`/admin/clientes/${clientId}/editar`}>Editar</Link>
         </Button>
       </PageHeader>
-      <Tabs defaultValue="profile" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="profile">Perfil do cliente</TabsTrigger>
-          <TabsTrigger value="contracts">Contratos</TabsTrigger>
-          <TabsTrigger value="processes">Processos</TabsTrigger>
-          <TabsTrigger value="documents">Documentos</TabsTrigger>
+      <Tabs defaultValue="profile" className="w-full space-y-4">
+        <TabsList className="w-full">
+          <TabsTrigger className="px-4 !shadow-none" value="profile">
+            Perfil do cliente
+          </TabsTrigger>
+          <TabsTrigger className="px-4 !shadow-none" value="contracts">
+            Contratos
+          </TabsTrigger>
+          <TabsTrigger className="px-4 !shadow-none" value="processes">
+            Processos
+          </TabsTrigger>
+          <TabsTrigger className="px-4 !shadow-none" value="documents">
+            Documentos
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
           <ClientProfile client={client} />
