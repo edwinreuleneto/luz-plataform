@@ -5,7 +5,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Services
-import { createClient, listClients, type ClientListResponse } from "@/app/services/clients";
+import {
+  createClient,
+  listClients,
+  type ClientListResponse,
+} from "@/app/services/clients";
 
 // Components
 import PageHeader from "@/components/page-header";
@@ -68,19 +72,29 @@ const ClientesPage = () => {
     loadClients();
   }, [loadClients]);
 
-
   return (
     <div className="space-y-4">
-      <PageHeader title="Clientes" description="Listagem de clientes">
+      <PageHeader
+        title="Clientes"
+        description="Listagem de clientes cadastrados"
+      >
         <Sheet open={open} onOpenChange={setOpen}>
           <div className="flex gap-2">
             <SheetTrigger asChild>
-              <Button size="lg" onClick={() => setNewPersonType("PF")}>
+              <Button
+                size="lg"
+                variant="default"
+                onClick={() => setNewPersonType("PF")}
+              >
                 Adicionar cliente PF
               </Button>
             </SheetTrigger>
             <SheetTrigger asChild>
-              <Button size="lg" onClick={() => setNewPersonType("PJ")}>
+              <Button
+                size="lg"
+                variant="default"
+                onClick={() => setNewPersonType("PJ")}
+              >
                 Adicionar cliente PJ
               </Button>
             </SheetTrigger>

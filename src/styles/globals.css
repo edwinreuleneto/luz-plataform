@@ -149,3 +149,7 @@ html,body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
+
+* {
+  font-family: var(--font-ubuntu), sans-serif;
+}

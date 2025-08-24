@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 
 // Styles
 import "@/styles/globals.css";
@@ -11,14 +11,14 @@ import { AuthProvider } from "./services/auth";
 import { Toaster } from "@/components/ui/sonner";
 
 // Configurando Inter
-const inter = Poppins({
+const ubuntu = Ubuntu({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-ubuntu",
 });
 
 export const metadata: Metadata = {
-  title: "Donna. Presente, precisa e inteligente",
+  title: "EuAdvoguei",
   description:
     "Donna é sua assistente virtual de alta performance, preparada para atuar com precisão em ambientes corporativos.",
   keywords: [
@@ -68,14 +68,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br" className="h-full bg-white dark:bg-gray-900">
-        <body
-          className={`${inter.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
-        >
-          <AuthProvider>
-            {children}
-            <Toaster />
-          </AuthProvider>
-        </body>
-      </html>
-    );
-  }
+      <body
+        className={`${ubuntu.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
+      >
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
+      </body>
+    </html>
+  );
+}
