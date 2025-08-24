@@ -17,15 +17,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import ClientProfile from "./_components/client-profile";
+import ClientContracts from "./_components/client-contracts";
+import ClientProcesses from "./_components/client-processes";
+import ClientDocuments from "./_components/client-documents";
 
 const ClienteViewPage = () => {
   const params = useParams<{ id: string }>();
@@ -48,53 +43,24 @@ const ClienteViewPage = () => {
           <Link href={`/admin/clientes/${clientId}/editar`}>Editar</Link>
         </Button>
       </PageHeader>
-      <Tabs defaultValue="details" className="space-y-4">
+      <Tabs defaultValue="profile" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="details">Detalhes</TabsTrigger>
+          <TabsTrigger value="profile">Perfil do cliente</TabsTrigger>
           <TabsTrigger value="contracts">Contratos</TabsTrigger>
+          <TabsTrigger value="processes">Processos</TabsTrigger>
+          <TabsTrigger value="documents">Documentos</TabsTrigger>
         </TabsList>
-        <TabsContent value="details">
-          <Card>
-            <CardContent className="space-y-2 p-4">
-              <p>
-                <strong>Email:</strong> {client.email ?? "-"}
-              </p>
-              <p>
-                <strong>Telefone:</strong> {client.phone ?? "-"}
-              </p>
-              <p>
-                <strong>Website:</strong> {client.website ?? "-"}
-              </p>
-              <p>
-                <strong>Notas:</strong> {client.notes ?? "-"}
-              </p>
-            </CardContent>
-          </Card>
+        <TabsContent value="profile">
+          <ClientProfile client={client} />
         </TabsContent>
         <TabsContent value="contracts">
-          <Card>
-            <CardContent className="p-0">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Título</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {contracts.map((contract) => (
-                    <TableRow key={contract.id} className="odd:bg-muted/50">
-                      <TableCell>{contract.title}</TableCell>
-                    </TableRow>
-                  ))}
-                  {contracts.length === 0 ? (
-                    <TableRow>
-                      <TableCell>Nenhum contrato vinculado</TableCell>
-                    </TableRow>
-                  ) : null}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
+          <ClientContracts contracts={contracts} />
+        </TabsContent>
+        <TabsContent value="processes">
+          <ClientProcesses />
+        </TabsContent>
+        <TabsContent value="documents">
+          <ClientDocuments />
         </TabsContent>
       </Tabs>
     </div>
