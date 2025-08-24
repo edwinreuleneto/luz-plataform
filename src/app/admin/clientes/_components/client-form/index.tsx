@@ -81,6 +81,12 @@ const ClientForm = ({
   };
 
   const personType = form.watch("personType");
+  const fieldStyles =
+    "bg-white px-3 pt-2.5 pb-1.5 outline-1 -outline-offset-1 outline-gray-300 focus-within:relative focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 dark:bg-white/5 dark:outline-gray-700 dark:focus-within:outline-indigo-500";
+  const inputStyles =
+    "block w-full text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6 dark:bg-transparent dark:text-white dark:placeholder:text-gray-500";
+  const labelStyles =
+    "block text-xs font-medium text-gray-900 dark:text-gray-200";
 
   return (
     <Form {...form}>
@@ -90,15 +96,15 @@ const ClientForm = ({
       >
         <div className="flex-1 space-y-4">
           {personType === "PF" ? (
-            <>
+            <div className="-space-y-px">
               <FormField
                 control={form.control}
                 name="fullName"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome completo</FormLabel>
+                  <FormItem className={`rounded-t-md ${fieldStyles}`}>
+                    <FormLabel className={labelStyles}>Nome completo</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className={inputStyles} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -108,26 +114,30 @@ const ClientForm = ({
                 control={form.control}
                 name="cpf"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CPF</FormLabel>
+                  <FormItem className={`rounded-b-md ${fieldStyles}`}>
+                    <FormLabel className={labelStyles}>CPF</FormLabel>
                     <FormControl>
-                      <MaskedInput mask={maskCpf} {...field} />
+                      <MaskedInput
+                        mask={maskCpf}
+                        {...field}
+                        className={inputStyles}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </>
+            </div>
           ) : (
-            <>
+            <div className="-space-y-px">
               <FormField
                 control={form.control}
                 name="companyName"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Razão social</FormLabel>
+                  <FormItem className={`rounded-t-md ${fieldStyles}`}>
+                    <FormLabel className={labelStyles}>Razão social</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} className={inputStyles} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -137,95 +147,115 @@ const ClientForm = ({
                 control={form.control}
                 name="cnpj"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CNPJ</FormLabel>
+                  <FormItem className={`rounded-b-md ${fieldStyles}`}>
+                    <FormLabel className={labelStyles}>CNPJ</FormLabel>
                     <FormControl>
-                      <MaskedInput mask={maskCnpj} {...field} />
+                      <MaskedInput
+                        mask={maskCnpj}
+                        {...field}
+                        className={inputStyles}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </>
+            </div>
           )}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefone</FormLabel>
-                <FormControl>
-                  <MaskedInput mask={maskPhone} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="website"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Website</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="notes"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Notas</FormLabel>
-                <FormControl>
-                  <Textarea {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="logoFileId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Logo</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    disabled={uploading}
-                    onChange={(e) => handleFileChange(e, field)}
-                  />
-                </FormControl>
-                {uploading ? (
-                  <p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
-                    <Loader2 className="size-3 animate-spin" /> Enviando...
-                  </p>
-                ) : field.value ? (
-                  <p className="text-muted-foreground mt-1 text-xs">
-                    Arquivo enviado
-                  </p>
-                ) : null}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
+          <div className="-space-y-px">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className={`rounded-t-md ${fieldStyles}`}>
+                  <FormLabel className={labelStyles}>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      {...field}
+                      className={inputStyles}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className={`rounded-b-md ${fieldStyles}`}>
+                  <FormLabel className={labelStyles}>Telefone</FormLabel>
+                  <FormControl>
+                    <MaskedInput
+                      mask={maskPhone}
+                      {...field}
+                      className={inputStyles}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="-space-y-px">
+            <FormField
+              control={form.control}
+              name="website"
+              render={({ field }) => (
+                <FormItem className={`rounded-t-md ${fieldStyles}`}>
+                  <FormLabel className={labelStyles}>Website</FormLabel>
+                  <FormControl>
+                    <Input {...field} className={inputStyles} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem className={`rounded-b-md ${fieldStyles}`}>
+                  <FormLabel className={labelStyles}>Notas</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} className={inputStyles} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="-space-y-px">
+            <FormField
+              control={form.control}
+              name="logoFileId"
+              render={({ field }) => (
+                <FormItem className={`rounded-md ${fieldStyles}`}>
+                  <FormLabel className={labelStyles}>Logo</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      disabled={uploading}
+                      onChange={(e) => handleFileChange(e, field)}
+                      className={inputStyles}
+                    />
+                  </FormControl>
+                  {uploading ? (
+                    <p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
+                      <Loader2 className="size-3 animate-spin" /> Enviando...
+                    </p>
+                  ) : field.value ? (
+                    <p className="text-muted-foreground mt-1 text-xs">Arquivo enviado</p>
+                  ) : null}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
         <div className="bg-background sticky bottom-0 pt-4">
           <Button

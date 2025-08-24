@@ -2,12 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 // Services
-import {
-  listContracts,
-  createContract,
-  uploadContractFile,
-  linkContractToClient,
-} from './contracts.service';
+import { listContracts, createContract } from './contracts.service';
 
 // DTOs
 import {
@@ -25,32 +20,8 @@ export const useListContracts = (query: ContractQueryDto) =>
 export const useCreateContract = (clientId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: { title: string; organizationId: string; file: File }) => {
-      const uploaded = await uploadContractFile(clientId, data.file);
-      const extension = data.file.name.split('.')?.pop() ?? '';
-      const contract = await createContract({
-        title: data.title,
-        organizationId: data.organizationId,
-        clientId,
-        file: {
-          ...uploaded,
-          name: data.file.name,
-          extension,
-        },
-      });
-      return contract;
-    },
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
-    },
-  });
-};
-
-export const useLinkContract = (clientId: string) => {
-  const queryClient = useQueryClient();
-  return useMutation({
     mutationFn: (data: { title: string; fileId: string }) =>
-      linkContractToClient({ ...data, clientId }),
+      createContract({ ...data, clientId }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
     },
