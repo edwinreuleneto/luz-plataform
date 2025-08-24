@@ -6,16 +6,16 @@ import type { ClientProfileProps } from "./client-profile-props";
 
 const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
-    <div>
-      {/* <div className="px-4 sm:px-0">
+    <div className="px-4">
+      <div className="mb-6 border-b border-gray-200 pb-6 sm:px-0">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Informações do cliente
         </h3>
         <p className="text-md max-w-2xl text-gray-500 dark:text-gray-400">
           Detalhes do cliente.
         </p>
-      </div> */}
-      <div className="mt-6">
+      </div>
+      <div>
         <dl className="grid grid-cols-1 sm:grid-cols-2">
           <div className="px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
             <dt className="text-md font-semibold text-gray-900 dark:text-white">
@@ -25,7 +25,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
               {client.personType}
             </dd>
           </div>
-          <div className="border-t border-gray-100 px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
+          <div className="px-4 py-4 sm:col-span-1 sm:px-0 dark:border-white/10">
             <dt className="text-md font-semibold text-gray-900 dark:text-white">
               Documento
             </dt>

@@ -1,44 +1,100 @@
+"use client";
+
+// External libs
+import { useState } from "react";
+import { File as FileIcon, FileImage, FileText, Plus } from "lucide-react";
+
+// Services
+import { useCreateContract } from "@/services/contracts";
+
 // Components
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import ContractForm from "./contract-form";
 
 // DTOs
 import type { ClientContractsProps } from "./client-contracts-props";
 
-const ClientContracts = ({ contracts }: ClientContractsProps) => {
+// Utils
+const getIcon = (ext?: string) => {
+  switch (ext) {
+    case "pdf":
+      return FileText;
+    case "png":
+    case "jpg":
+    case "jpeg":
+    case "gif":
+      return FileImage;
+    default:
+      return FileIcon;
+  }
+};
+
+const ClientContracts = ({
+  contracts,
+  clientId,
+  organizationId,
+}: ClientContractsProps) => {
+  const [open, setOpen] = useState(false);
+  const { mutateAsync: createContract, isPending } = useCreateContract(clientId);
+
+  const handleSubmit = async ({ title, file }: { title: string; file: File }) => {
+    await createContract({ title, organizationId, file });
+    setOpen(false);
+  };
+
   return (
     <Card>
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Título</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {contracts.map((contract) => (
-              <TableRow key={contract.id} className="odd:bg-muted/50">
-                <TableCell>{contract.title}</TableCell>
-              </TableRow>
-            ))}
-            {contracts.length === 0 ? (
-              <TableRow>
-                <TableCell>Nenhum contrato vinculado</TableCell>
-              </TableRow>
-            ) : null}
-          </TableBody>
-        </Table>
+      <CardContent className="p-4 space-y-4">
+        <div className="flex justify-end">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button size="sm">
+                <Plus className="mr-2 size-4" />
+                Adicionar contrato
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Novo contrato</DialogTitle>
+              </DialogHeader>
+              <ContractForm onSubmit={handleSubmit} loading={isPending} />
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6">
+          {contracts.map((contract) => {
+            const Icon = getIcon(contract.file?.extension);
+            return (
+              <div
+                key={contract.id}
+                className="flex flex-col items-center text-center"
+              >
+                <div className="bg-muted rounded-md p-4 transition hover:shadow-md">
+                  <Icon className="size-10 text-primary" />
+                </div>
+                <span className="mt-2 w-full truncate text-sm">
+                  {contract.file?.name ?? contract.title}
+                </span>
+              </div>
+            );
+          })}
+          {contracts.length === 0 ? (
+            <p className="col-span-full text-center text-sm text-muted-foreground">
+              Nenhum contrato vinculado
+            </p>
+          ) : null}
+        </div>
       </CardContent>
     </Card>
   );
 };
 
 export default ClientContracts;
-
