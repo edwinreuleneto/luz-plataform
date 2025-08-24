@@ -6,7 +6,6 @@ import {
   listContracts,
   createContract,
   uploadContractFile,
-  updateContractFile,
 } from './contracts.service';
 
 // DTOs
@@ -26,13 +25,13 @@ export const useCreateContract = (clientId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: { title: string; organizationId: string; file: File }) => {
+      const fileId = await uploadContractFile(clientId, data.file);
       const contract = await createContract({
         title: data.title,
         organizationId: data.organizationId,
         clientId,
+        fileId,
       });
-      const fileId = await uploadContractFile(clientId, data.file);
-      await updateContractFile(contract.id, fileId);
       return contract;
     },
     onSuccess: () => {

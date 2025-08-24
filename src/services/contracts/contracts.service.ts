@@ -51,7 +51,9 @@ export const uploadContractFile = async (
   clientId: string,
   file: File,
 ): Promise<string> => {
-  const key = `${clientId}/contratos/${file.name}`;
+  const folder = `${clientId}/contratos`;
+  const key = `${folder}/${file.name}`;
+  const extension = file.name.split(".").pop() ?? "";
 
   const presignRes = await fetch(buildUrl("/api/v1/s3/presign"), {
     method: "POST",
@@ -65,9 +67,12 @@ export const uploadContractFile = async (
   }
 
   const { url } = await presignRes.json();
+  const rawUrl = (url as string).split("?")[0];
+  const baseUrl = rawUrl.replace(`/${key}`, "");
 
   const uploadRes = await fetch(url, {
     method: "PUT",
+    headers: { "Content-Type": file.type },
     body: file,
   });
 
@@ -75,14 +80,21 @@ export const uploadContractFile = async (
     throw new Error("Failed to upload file");
   }
 
+  const eTag = uploadRes.headers.get("ETag")?.replace(/"/g, "");
+
   const completeRes = await fetch(buildUrl("/api/v1/s3/complete-upload"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      file: key,
       name: file.name,
-      extension: file.name.split(".").pop(),
-      folder: `${clientId}/contratos`,
+      extension,
+      baseUrl,
+      folder,
+      file: key,
+      url: rawUrl,
+      size: file.size,
+      contentType: file.type,
+      eTag,
     }),
     credentials: "include",
   });

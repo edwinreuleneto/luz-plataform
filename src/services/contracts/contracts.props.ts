@@ -17,6 +17,7 @@ export interface CreateContractDto {
   title: string;
   organizationId: string;
   clientId?: string;
+  fileId?: string;
 }
 
 export interface ContractQueryDto {
