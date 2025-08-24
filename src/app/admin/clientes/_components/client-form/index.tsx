@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 
 // Services
-import { uploadFile } from "@/app/services/files";
+import { uploadFile } from "@/services/files";
 
 // Components
 import { Button } from "@/components/ui/button";

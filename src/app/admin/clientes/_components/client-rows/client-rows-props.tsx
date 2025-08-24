@@ -1,5 +1,5 @@
 // Services
-import { type Client } from "@/app/services/clients";
+import { type Client } from "@/services/clients";
 
 // DTOs
 export interface ClientRowsProps {

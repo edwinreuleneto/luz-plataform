@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
 // Domain Entities/DTOs/Interfaces
-import { useAuth } from '@/app/services/auth';
+import { useAuth } from '@/services/auth';
 
 // Utils/Helpers
 import {

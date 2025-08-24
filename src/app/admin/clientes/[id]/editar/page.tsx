@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 // Services
-import { getClient, updateClient, type Client } from "@/app/services/clients";
+import { getClient, updateClient, type Client } from "@/services/clients";
 
 // Components
 import PageHeader from "@/components/page-header";
