@@ -1,15 +1,7 @@
 "use client";
 
-// External libs
-import { type ReactNode } from "react";
-
-// Components
-
-interface PageHeaderProps {
-  title: string;
-  description?: string;
-  children?: ReactNode;
-}
+// DTOs
+import { type PageHeaderProps } from "./page-header-props";
 
 const PageHeader = ({ title, description, children }: PageHeaderProps) => {
   return (

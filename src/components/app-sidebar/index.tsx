@@ -3,7 +3,6 @@
 // External libs
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import * as React from "react";
 import { LayoutDashboard, Users, FileText } from "lucide-react";
 
 // Components
@@ -16,8 +15,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/components/ui/sidebar";
+
+// DTOs
+import { type AppSidebarProps } from "./app-sidebar-props";
 
 const menuItems = [
   { title: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -25,7 +26,7 @@ const menuItems = [
   { title: "Processos", href: "/admin/processos", icon: FileText },
 ];
 
-export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar(props: AppSidebarProps) {
   const pathname = usePathname();
 
   return (
