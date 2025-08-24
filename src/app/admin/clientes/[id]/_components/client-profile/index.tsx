@@ -1,5 +1,5 @@
 // External libs
-import { PaperClipIcon } from "@heroicons/react/20/solid";
+import { Paperclip } from "lucide-react";
 
 // DTOs
 import type { ClientProfileProps } from "./client-profile-props";
@@ -87,7 +87,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                       className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6"
                     >
                       <div className="flex w-0 flex-1 items-center">
-                        <PaperClipIcon
+                        <Paperclip
                           aria-hidden="true"
                           className="size-5 shrink-0 text-gray-400 dark:text-gray-500"
                         />
@@ -144,7 +144,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
                       className="flex items-center justify-between py-4 pr-5 pl-4 text-sm/6"
                     >
                       <div className="flex w-0 flex-1 items-center">
-                        <PaperClipIcon
+                        <Paperclip
                           aria-hidden="true"
                           className="size-5 shrink-0 text-gray-400 dark:text-gray-500"
                         />
