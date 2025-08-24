@@ -49,7 +49,7 @@ export const useCreateContract = (clientId: string) => {
 export const useLinkContract = (clientId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { name: string; fileId: string }) =>
+    mutationFn: (data: { title: string; fileId: string }) =>
       linkContractToClient({ ...data, clientId }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
