@@ -9,13 +9,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-// Services
-import { type Contract } from "@/services/contracts/contracts.props";
-
 // DTOs
-interface ClientContractsProps {
-  contracts: Contract[];
-}
+import type { ClientContractsProps } from "./client-contracts-props";
 
 const ClientContracts = ({ contracts }: ClientContractsProps) => {
   return (

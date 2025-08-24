@@ -1,7 +1,10 @@
 // Components
 import { Card, CardContent } from "@/components/ui/card";
 
-const ClientDocuments = () => {
+// DTOs
+import type { ClientDocumentsProps } from "./client-documents-props";
+
+const ClientDocuments = ({}: ClientDocumentsProps) => {
   return (
     <Card>
       <CardContent className="p-4">
