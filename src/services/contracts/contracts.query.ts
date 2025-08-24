@@ -6,6 +6,7 @@ import {
   listContracts,
   createContract,
   uploadContractFile,
+  linkContractToClient,
 } from './contracts.service';
 
 // DTOs
@@ -25,15 +26,31 @@ export const useCreateContract = (clientId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: { title: string; organizationId: string; file: File }) => {
-      const fileId = await uploadContractFile(clientId, data.file);
+      const uploaded = await uploadContractFile(clientId, data.file);
+      const extension = data.file.name.split('.')?.pop() ?? '';
       const contract = await createContract({
         title: data.title,
         organizationId: data.organizationId,
         clientId,
-        fileId,
+        file: {
+          ...uploaded,
+          name: data.file.name,
+          extension,
+        },
       });
       return contract;
     },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
+    },
+  });
+};
+
+export const useLinkContract = (clientId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: { name: string; fileId: string }) =>
+      linkContractToClient({ ...data, clientId }),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ['contracts', { clientId }] });
     },
