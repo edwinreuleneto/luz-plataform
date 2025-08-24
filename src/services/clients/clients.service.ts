@@ -7,7 +7,7 @@ import {
   type UpdateClientDto,
 } from "./clients.props";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "";
+const API_BASE_URL = process.env.API_BASE_URL ?? "";
 
 const buildUrl = (path: string) => `${API_BASE_URL}${path}`;
 

@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 
+// Icons
+import { ChevronRight } from "lucide-react";
+
 // Utils
 import { maskCnpj, maskCpf, maskPhone } from "@/utils/masks";
 
@@ -19,19 +22,19 @@ const ClientRows = ({ clients, loading }: ClientRowsProps) => {
         {Array.from({ length: 5 }).map((_, i) => (
           <TableRow key={i} className="odd:bg-muted/50">
             <TableCell>
-              <Skeleton className="h-4 w-[150px]" />
+              <Skeleton className="h-6 w-[150px] py-2" />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-4 w-10" />
+              <Skeleton className="h-6 w-10 py-2" />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-4 w-[120px]" />
+              <Skeleton className="h-6 w-[120px] py-2" />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-4 w-[180px]" />
+              <Skeleton className="h-6 w-[180px] py-2" />
             </TableCell>
             <TableCell>
-              <Skeleton className="h-4 w-[120px]" />
+              <Skeleton className="h-6 w-[120px] py-2" />
             </TableCell>
             <TableCell className="text-right">
               <Skeleton className="ml-auto h-4 w-12" />
@@ -47,9 +50,11 @@ const ClientRows = ({ clients, loading }: ClientRowsProps) => {
       {clients.map((client) => (
         <TableRow
           key={client.id}
-          className="odd:bg-muted/50 transition-colors hover:bg-muted"
+          className="not-odd:bg-muted/50 hover:bg-muted transition-colors"
         >
-          <TableCell>{client.fullName ?? client.companyName}</TableCell>
+          <TableCell className="font-medium">
+            {client.fullName ?? client.companyName}
+          </TableCell>
           <TableCell className="text-muted-foreground">
             {client.personType}
           </TableCell>
@@ -70,14 +75,16 @@ const ClientRows = ({ clients, loading }: ClientRowsProps) => {
           </TableCell>
           <TableCell className="text-right">
             <Button asChild variant="link" className="px-0">
-              <Link href={`/admin/clientes/${client.id}`}>Visualizar</Link>
+              <Link href={`/admin/clientes/${client.id}`}>
+                <ChevronRight className="h-4 w-4" />
+              </Link>
             </Button>
           </TableCell>
         </TableRow>
       ))}
       {clients.length === 0 ? (
         <TableRow>
-          <TableCell colSpan={6} className="text-center text-muted-foreground">
+          <TableCell colSpan={6} className="text-muted-foreground text-center">
             Nenhum cliente encontrado
           </TableCell>
         </TableRow>

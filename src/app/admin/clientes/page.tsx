@@ -38,17 +38,20 @@ import ClientTable from "./_components/client-table";
 const ClientesPage = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<"PF" | "PJ" | undefined>();
   const [newPersonType, setNewPersonType] = useState<"PF" | "PJ">("PF");
 
-  const { data = {
-    data: [],
-    total: 0,
-    page,
-    pageSize: 20,
-  }, isFetching: loading } = useListClients({
+  const {
+    data = {
+      data: [],
+      total: 0,
+      page,
+      pageSize: 20,
+    },
+    isFetching: loading,
+  } = useListClients({
     page,
     search: search || undefined,
     personType: filterType,
@@ -109,7 +112,7 @@ const ClientesPage = () => {
           </SheetContent>
         </Sheet>
       </PageHeader>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-2">
+      <div className="-mt-6 mb-6 grid grid-cols-[1fr_150px] gap-4 border-b border-gray-100 pb-6 sm:flex-row sm:items-center sm:gap-2">
         <Input
           placeholder="Buscar..."
           value={search}
@@ -118,9 +121,10 @@ const ClientesPage = () => {
             setSearch(value);
             setPage(1);
           }}
-          className="w-full sm:w-64"
+          className="w-full"
         />
         <Select
+          defaultValue="all"
           value={filterType ?? "all"}
           onValueChange={(value) => {
             const type = value === "all" ? undefined : (value as "PF" | "PJ");
@@ -128,7 +132,7 @@ const ClientesPage = () => {
             setPage(1);
           }}
         >
-          <SelectTrigger className="w-full sm:w-40">
+          <SelectTrigger className="w-full">
             <SelectValue placeholder="Tipo" />
           </SelectTrigger>
           <SelectContent>

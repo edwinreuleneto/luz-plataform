@@ -5,9 +5,11 @@ import { type PageHeaderProps } from "./page-header-props";
 
 const PageHeader = ({ title, description, children }: PageHeaderProps) => {
   return (
-    <div className="mb-6 flex items-center justify-between border-b border-gray-100 py-4">
+    <div className="mb-6 flex items-center justify-between py-4">
       <div>
-        <h1 className="text-2xl font-medium">{title}</h1>
+        <h1 className="text-primary font-quicksand text-3xl font-bold">
+          {title}
+        </h1>
         {description ? (
           <p className="text-muted-foreground text-sm">{description}</p>
         ) : null}

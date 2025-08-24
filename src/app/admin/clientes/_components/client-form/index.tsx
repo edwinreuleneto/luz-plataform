@@ -84,7 +84,10 @@ const ClientForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submit)} className="flex h-full flex-col">
+      <form
+        onSubmit={form.handleSubmit(submit)}
+        className="flex h-full flex-col"
+      >
         <div className="flex-1 space-y-4">
           {personType === "PF" ? (
             <>
@@ -211,22 +214,25 @@ const ClientForm = ({
                   />
                 </FormControl>
                 {uploading ? (
-                  <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                  <p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
                     <Loader2 className="size-3 animate-spin" /> Enviando...
                   </p>
                 ) : field.value ? (
-                  <p className="mt-1 text-xs text-muted-foreground">Arquivo enviado</p>
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    Arquivo enviado
+                  </p>
                 ) : null}
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <div className="sticky bottom-0 bg-background pt-4">
+        <div className="bg-background sticky bottom-0 pt-4">
           <Button
             type="submit"
             disabled={submitting || uploading}
             className="w-full"
+            size="lg"
           >
             {submitLabel}
           </Button>

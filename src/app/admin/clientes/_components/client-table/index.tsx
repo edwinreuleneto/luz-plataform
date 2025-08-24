@@ -17,15 +17,15 @@ const ClientTable = ({ state, loadPage, loading }: ClientTableProps) => {
   const totalPages = Math.ceil(state.total / state.pageSize);
   return (
     <div className="space-y-4">
-      <Table>
+      <Table className="overflow-hidden rounded-lg">
         <TableHeader>
-          <TableRow className="bg-muted/50">
-            <TableHead>Nome</TableHead>
-            <TableHead>Tipo</TableHead>
-            <TableHead>Documento</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Telefone</TableHead>
-            <TableHead className="text-right">Ações</TableHead>
+          <TableRow className="bg-muted/100 min-h-28">
+            <TableHead className="py-4">Nome</TableHead>
+            <TableHead className="py-4">Tipo</TableHead>
+            <TableHead className="py-4">Documento</TableHead>
+            <TableHead className="py-4">Email</TableHead>
+            <TableHead className="py-4">Telefone</TableHead>
+            <TableHead className="py-4"></TableHead>
           </TableRow>
         </TableHeader>
         <ClientRows clients={state.data} loading={loading} />

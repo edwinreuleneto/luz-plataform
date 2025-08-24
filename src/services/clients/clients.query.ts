@@ -1,5 +1,5 @@
 // External libs
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { type Client } from './clients.props';
 
 // Services
@@ -21,7 +21,7 @@ export const useListClients = (query: ClientQueryDto) =>
   useQuery<ClientListResponse>({
     queryKey: ['clients', query],
     queryFn: () => listClients(query),
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
 
 export const useClient = (id?: string) =>

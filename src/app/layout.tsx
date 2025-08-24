@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import { Quicksand, Source_Sans_3 } from "next/font/google";
 
 // Styles
 import "@/styles/globals.css";
@@ -12,10 +12,16 @@ import { AuthProvider } from "@/services/auth";
 import { Toaster } from "@/components/ui/sonner";
 
 // Configurando Inter
-const ubuntu = Ubuntu({
+const quicksand = Quicksand({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-  variable: "--font-ubuntu",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-quicksand",
+});
+
+const sansSource = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sansSource",
 });
 
 export const metadata: Metadata = {
@@ -70,7 +76,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br" className="h-full bg-white dark:bg-gray-900">
       <body
-        className={`${ubuntu.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
+        className={`${quicksand.variable} ${sansSource.variable} bg-gradient dark:lg:bg-bg-zinc-950 h-full bg-white antialiased lg:bg-zinc-100 dark:bg-zinc-900`}
       >
         <ReactQueryProvider>
           <AuthProvider>
