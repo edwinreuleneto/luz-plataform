@@ -68,16 +68,11 @@ const ClientesPage = () => {
   });
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const [filterType, setFilterType] =
-    useState<"PF" | "PJ" | undefined>();
+  const [filterType, setFilterType] = useState<"PF" | "PJ" | undefined>();
   const [newPersonType, setNewPersonType] = useState<"PF" | "PJ">("PF");
 
   const loadClients = useCallback(
-    async (
-      page = 1,
-      searchParam?: string,
-      typeParam?: "PF" | "PJ"
-    ) => {
+    async (page = 1, searchParam?: string, typeParam?: "PF" | "PJ") => {
       setLoading(true);
       try {
         const res = await listClients({
@@ -92,7 +87,7 @@ const ClientesPage = () => {
         setLoading(false);
       }
     },
-    [search, filterType]
+    [search, filterType],
   );
 
   useEffect(() => {
@@ -121,7 +116,7 @@ const ClientesPage = () => {
                 <Skeleton className="h-4 w-[120px]" />
               </TableCell>
               <TableCell className="text-right">
-                <Skeleton className="h-4 w-12 ml-auto" />
+                <Skeleton className="ml-auto h-4 w-12" />
               </TableCell>
             </TableRow>
           ))}
@@ -166,7 +161,7 @@ const ClientesPage = () => {
           <TableRow>
             <TableCell
               colSpan={6}
-              className="text-center text-muted-foreground"
+              className="text-muted-foreground text-center"
             >
               Nenhum cliente encontrado
             </TableCell>
@@ -178,28 +173,24 @@ const ClientesPage = () => {
 
   const renderTable = (
     state: ClientListResponse,
-    loadPage: (page: number) => void
+    loadPage: (page: number) => void,
   ) => {
     const totalPages = Math.ceil(state.total / state.pageSize);
     return (
       <div className="space-y-4">
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead>Nome</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead>Documento</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Telefone</TableHead>
-                  <TableHead className="text-right">Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              {renderRows(state.data)}
-            </Table>
-          </CardContent>
-        </Card>
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/50">
+              <TableHead>Nome</TableHead>
+              <TableHead>Tipo</TableHead>
+              <TableHead>Documento</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Telefone</TableHead>
+              <TableHead className="text-right">Ações</TableHead>
+            </TableRow>
+          </TableHeader>
+          {renderRows(state.data)}
+        </Table>
         {totalPages > 1 && (
           <div className="px-2">
             <Pagination>
@@ -243,10 +234,14 @@ const ClientesPage = () => {
         <Sheet open={open} onOpenChange={setOpen}>
           <div className="flex gap-2">
             <SheetTrigger asChild>
-              <Button onClick={() => setNewPersonType("PF")}>Novo PF</Button>
+              <Button size="lg" onClick={() => setNewPersonType("PF")}>
+                Adicionar cliente PF
+              </Button>
             </SheetTrigger>
             <SheetTrigger asChild>
-              <Button onClick={() => setNewPersonType("PJ")}>Novo PJ</Button>
+              <Button size="lg" onClick={() => setNewPersonType("PJ")}>
+                Adicionar cliente PJ
+              </Button>
             </SheetTrigger>
           </div>
           <SheetContent
@@ -255,7 +250,9 @@ const ClientesPage = () => {
           >
             <SheetHeader className="px-6 py-4">
               <SheetTitle>
-                {newPersonType === "PF" ? "Novo PF" : "Novo PJ"}
+                {newPersonType === "PF"
+                  ? "Adicionar cliente PF"
+                  : "Adicionar cliente PJ"}
               </SheetTitle>
               <SheetDescription>Cadastro de cliente</SheetDescription>
             </SheetHeader>
