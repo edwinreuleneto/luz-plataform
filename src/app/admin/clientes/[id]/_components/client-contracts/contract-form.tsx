@@ -43,7 +43,7 @@ const ContractForm = ({ onSubmit, loading }: ContractFormProps) => {
     if (file) {
       setUploading(true);
       try {
-        const { id } = await uploadFile(file);
+        const { id } = await uploadFile(file, "contracts");
         field.onChange(id);
       } catch (error) {
         console.error(error);
