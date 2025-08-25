@@ -39,7 +39,8 @@ const getIcon = (ext?: string) => {
 
 const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
   const [open, setOpen] = useState(false);
-  const { mutateAsync: createContract, isPending } = useCreateContract(clientId);
+  const { mutateAsync: createContract, isPending } =
+    useCreateContract(clientId);
 
   const handleSubmit = async ({
     title,
@@ -53,12 +54,12 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
   };
 
   return (
-    <Card>
-      <CardContent className="p-4 space-y-4">
+    <Card className="border-none shadow-none">
+      <CardContent className="space-y-4 p-4 pt-0">
         <div className="flex justify-end">
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-              <Button size="sm">
+              <Button size="lg">
                 <Plus className="mr-2 size-4" />
                 Adicionar contrato
               </Button>
@@ -71,7 +72,7 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 md:grid-cols-6">
+        <div className="grid grid-cols-2 gap-4 py-8 sm:grid-cols-4 md:grid-cols-6">
           {contracts.map((contract) => {
             const Icon = getIcon(contract.file.extension);
             return (
@@ -80,7 +81,7 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
                 className="flex flex-col items-center text-center"
               >
                 <div className="bg-muted rounded-md p-4 transition hover:shadow-md">
-                  <Icon className="size-10 text-primary" />
+                  <Icon className="text-primary size-10" />
                 </div>
                 <span className="mt-2 w-full truncate text-sm">
                   {contract.file.name ?? contract.label}
@@ -89,7 +90,7 @@ const ClientContracts = ({ contracts, clientId }: ClientContractsProps) => {
             );
           })}
           {contracts.length === 0 ? (
-            <p className="col-span-full text-center text-sm text-muted-foreground">
+            <p className="text-muted-foreground col-span-full text-center text-sm">
               Nenhum contrato vinculado
             </p>
           ) : null}

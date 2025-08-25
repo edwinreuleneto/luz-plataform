@@ -15,7 +15,7 @@ export const listContracts = async (
     typeof window !== "undefined" ? localStorage.getItem("token") : undefined;
 
   const res = await fetch(
-    buildUrl(`/api/v1/users/${clientId}/documents`),
+    buildUrl(`/api/v1/contracts/user/${clientId}`),
     {
       cache: "no-store",
       headers: token ? { Authorization: `Bearer ${token}` } : undefined,
