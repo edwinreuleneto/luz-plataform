@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "pnpm dlx shadcn@latest init -d --path src/components/shadcn"
+    "shadcn:init": "pnpm dlx shadcn@latest init -d"
   },
   "shadcn": {
     "path": "src/components/shadcn"
